@@ -487,7 +487,7 @@
         </select>
       </div>
       <div class="price-result" id="priceDisplay">
-        Estimado: $1,250 USD
+        Estimado: Q1,250.00
       </div>
       <p style="font-size:0.75rem; margin-top:1rem; text-align:center;">*Precio referencial. Te contactaremos para presupuesto exacto.</p>
       <button id="contactQuoteBtn" class="btn-cta" style="background-color: #c17b4c; margin-top: 1.2rem; width:100%;">Solicitar asesoría personalizada</button>
@@ -510,8 +510,8 @@
     <a href="#"><i class="fab fa-pinterest"></i></a>
     <a href="#"><i class="fas fa-envelope"></i></a>
   </div>
-  <p style="margin-top: 1.5rem;">© 2025 EspaciosVivos — Hecho para hogares reducidos con alma grande.</p>
-  <p style="margin-top: 0.5rem; font-size:0.8rem;">📞 +34 123 456 789 | ✉️ hola@espaciosvivos.com</p>
+  <p style="margin-top: 1.5rem;">© 2025 Espacios que Suman — Hecho para hogares reducidos con alma grande.</p>
+  <p style="margin-top: 0.5rem; font-size:0.8rem;">📞 +502 5222 - 2222 | ✉️ hola@espacionquesuman.com.gt</p>
 </footer>
 
 <script>
@@ -638,7 +638,7 @@
       const space = spaceSelect.options[spaceSelect.selectedIndex]?.text;
       const meters = metersInput.value;
       const service = serviceSelect.options[serviceSelect.selectedIndex]?.text;
-      alert(`✅ Solicitud enviada. Nos pondremos en contacto para tu proyecto:\n\n• Espacio: ${space}\n• Metros: ${meters}m²\n• Servicio: ${service}\n\n¡Gracias por confiar en EspaciosVivos!`);
+      alert(`✅ Solicitud enviada. Nos pondremos en contacto para tu proyecto:\n\n• Espacio: ${space}\n• Metros: ${meters}m²\n• Servicio: ${service}\n\n¡Gracias por confiar en Espacios que Suman!`);
     });
   }
   
@@ -733,7 +733,7 @@
     e.preventDefault();
     // Obtener la URL actual (funciona tanto local como publicada)
     const url = window.location.href;
-    const titulo = "EspaciosVivos - Optimización de espacios reducidos";
+    const titulo = "Espacios que Suman - Optimización de espacios reducidos";
     const mensaje = `¡Hola! Te invito a conocer ${titulo}. Transformamos departamentos y casas pequeñas en hogares funcionales y hermosos. 🌟\n\n`;
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(mensaje + url)}`;
     window.open(whatsappUrl, '_blank');
