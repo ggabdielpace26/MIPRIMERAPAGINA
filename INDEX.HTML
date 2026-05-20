@@ -4,9 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>Espacios que Suman | Optimización de espacios reducidos</title>
-  <!-- Google Fonts + Font Awesome para iconos dinámicos -->
+  <!-- Google Fonts + Font Awesome -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Three.js core y extras -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+      }
+    }
+  </script>
   <style>
     * {
       margin: 0;
@@ -22,7 +31,6 @@
       overflow-x: hidden;
     }
 
-    /* variables luz/sombra */
     :root {
       --primary: #c17b4c;
       --primary-dark: #a35f36;
@@ -34,12 +42,6 @@
       --transition: all 0.3s ease;
     }
 
-    /* scroll suave */
-    html {
-      scroll-behavior: smooth;
-    }
-
-    /* header dinamico */
     .navbar {
       display: flex;
       justify-content: space-between;
@@ -68,8 +70,6 @@
       font-weight: 300;
       color: #5c8d7e;
       background: none;
-      -webkit-background-clip: unset;
-      background-clip: unset;
     }
 
     .nav-links {
@@ -104,17 +104,45 @@
       transform: scale(0.97);
     }
 
-    /* hero section con parallax ligero */
-    .hero {
-      min-height: 85vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      background: linear-gradient(107deg, #faf3e0 0%, #f5ede0 100%);
-      position: relative;
-      overflow: hidden;
-    }
+ .hero {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  animation: slideBackground 20s infinite;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Animación de cambio de fondos */
+@keyframes slideBackground {
+  0%, 25% {
+    background-image: url('https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1600');
+  }
+  30%, 55% {
+    background-image: url('https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=1600');
+  }
+  60%, 85% {
+    background-image: url('https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&w=1600');
+  }
+  90%, 100% {
+    background-image: url('https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=1600');
+  }
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1;
+}
 
     .hero-content {
       max-width: 800px;
@@ -135,7 +163,7 @@
 
     .hero-content p {
       font-size: 1.2rem;
-      color: #5a534a;
+      color: #ffffff;
       margin-bottom: 2rem;
     }
 
@@ -155,10 +183,123 @@
     .btn-cta:hover {
       background-color: #477a6a;
       transform: translateY(-4px);
-      box-shadow: 0 15px 25px -10px rgba(92,141,126,0.5);
     }
 
-    /* sección servicios interactiva */
+    /* Sección 3D Realista */
+    .section-3d {
+      padding: 3rem 6%;
+      background: linear-gradient(135deg, #1a1815 0%, #2a2520 100%);
+      color: white;
+    }
+
+    .section-3d .section-title {
+      color: white;
+    }
+
+    .section-3d .section-title:after {
+      background: var(--primary);
+    }
+
+    .model-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .canvas-wrapper {
+      flex: 1;
+      min-width: 300px;
+      background: #0a0a0a;
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+      position: relative;
+      border: 1px solid rgba(193,123,76,0.3);
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      cursor: grab;
+    }
+
+    canvas:active {
+      cursor: grabbing;
+    }
+
+    .model-controls {
+      flex: 0 0 280px;
+      background: rgba(30,28,25,0.9);
+      backdrop-filter: blur(12px);
+      border-radius: 28px;
+      padding: 1.8rem;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .model-controls h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+
+    .model-controls p {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .toggle-buttons {
+      display: flex;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 40px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+    }
+
+    .toggle-btn.antes {
+      background: #6b4c3b;
+      color: white;
+    }
+
+    .toggle-btn.despues {
+      background: var(--primary);
+      color: white;
+    }
+
+    .toggle-btn.active {
+      background: var(--secondary);
+      transform: scale(1.02);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .info-3d {
+      font-size: 0.8rem;
+      margin-top: 1.5rem;
+      opacity: 0.7;
+      line-height: 1.6;
+    }
+
+    .info-3d i {
+      margin-right: 0.5rem;
+      color: var(--primary);
+    }
+
+    /* Resto de secciones */
     .section {
       padding: 5rem 6%;
     }
@@ -218,12 +359,6 @@
       margin-bottom: 0.8rem;
     }
 
-    .service-card p {
-      color: #6b6258;
-      line-height: 1.5;
-    }
-
-    /* Galeria antes/después dinámica */
     .gallery-slider {
       background: #f2ede3;
       border-radius: 48px;
@@ -256,12 +391,6 @@
       margin-bottom: 1rem;
     }
 
-    .compare-card h4 {
-      font-size: 1.3rem;
-      color: var(--primary-dark);
-    }
-
-    /* cotizador interactivo */
     .quote-box {
       background: var(--light-bg);
       border-radius: 48px;
@@ -290,13 +419,6 @@
       border: 1px solid #e2d5c6;
       background: white;
       font-family: 'Inter', sans-serif;
-      transition: 0.2s;
-    }
-
-    select:focus, input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(193,123,76,0.2);
     }
 
     .price-result {
@@ -310,7 +432,6 @@
       margin-top: 1rem;
     }
 
-    /* testimonios dinámicos (carrusel simple) */
     .testimonials {
       background: #ffffff;
       border-radius: 48px;
@@ -334,17 +455,6 @@
       box-shadow: 0 6px 14px rgba(0,0,0,0.05);
     }
 
-    .testimonial-card i {
-      color: var(--primary);
-      font-size: 1.8rem;
-      margin-bottom: 0.7rem;
-    }
-
-    .testimonial-card p {
-      font-style: italic;
-    }
-
-    /* footer */
     footer {
       background: #2d2a24;
       color: #d9cdbc;
@@ -365,7 +475,6 @@
       transform: translateY(-3px);
     }
 
-    /* animación entrada */
     .fade-up {
       opacity: 0;
       transform: translateY(25px);
@@ -375,6 +484,30 @@
     .fade-up.appear {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #25D366;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 9999;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+      background-color: #128C7E;
     }
 
     @media (max-width: 760px) {
@@ -390,8 +523,9 @@
       .hero-content h1 {
         font-size: 2.2rem;
       }
-      .section-title {
-        font-size: 2rem;
+      .model-controls {
+        flex: auto;
+        width: 100%;
       }
     }
   </style>
@@ -403,6 +537,7 @@
   <div class="nav-links">
     <a href="#inicio">Inicio</a>
     <a href="#servicios">Servicios</a>
+    <a href="#modelo3d">Tour 3D</a>
     <a href="#proyectos">Proyectos</a>
     <a href="#cotizador">Cotizar</a>
     <a href="#contacto" class="btn-nav">Contacto</a>
@@ -410,16 +545,37 @@
 </nav>
 
 <main>
-  <!-- Hero inicio -->
   <section id="inicio" class="hero">
     <div class="hero-content fade-up">
       <h1>Transformamos espacios pequeños en grandes experiencias</h1>
-      <p>Diseño, desarrollo y optimización para departamentos, apartamentos y casas reducidas. Cada centímetro cuadrado importa.</p>
+      <p color = white >Diseño, desarrollo y optimización para departamentos, apartamentos y casas reducidas. Cada metro cuadrado importa.</p>
       <button class="btn-cta" id="scrollToServicios">Descubrir soluciones →</button>
     </div>
   </section>
 
-  <!-- Servicios card dinámicos -->
+  <!-- SECCIÓN 3D REALISTA MEJORADA -->
+  <section id="modelo3d" class="section-3d">
+    <h2 class="section-title fade-up">🎮 Explora en 3D Realista</h2>
+    <div class="model-container">
+      <div class="canvas-wrapper">
+        <canvas id="threeCanvas" style="width:100%; height:550px; display:block;"></canvas>
+      </div>
+      <div class="model-controls">
+        <h3><i class="fas fa-cube"></i> Visualiza la transformación</h3>
+        <p>Arrastra para rotar · Zoom para detalles</p>
+        <div class="toggle-buttons">
+          <button id="btnAntes" class="toggle-btn antes active">🏚️ ANTES</button>
+          <button id="btnDespues" class="toggle-btn despues">✨ DESPUÉS</button>
+        </div>
+        <div class="info-3d">
+          <i class="fas fa-mouse-pointer"></i> Interacción completa<br>
+          <i class="fas fa-palette"></i> Materiales realistas<br>
+          <i class="fas fa-sun"></i> Iluminación dinámica
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="servicios" class="section">
     <h2 class="section-title fade-up">Soluciones inteligentes</h2>
     <div class="services-grid">
@@ -446,22 +602,17 @@
     </div>
   </section>
 
-  <!-- Galería interactiva: antes/después -->
   <section id="proyectos" class="section" style="background: #fcf8f0;">
     <h2 class="section-title fade-up">Casos de éxito: Antes y Después</h2>
     <div class="gallery-slider fade-up">
-      <div class="slider-container" id="sliderContainer">
-        <!-- Proyectos dinámicos con JS (se llenan desde array) -->
-      </div>
+      <div class="slider-container" id="sliderContainer"></div>
       <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;">
         <button id="prevProject" class="btn-nav" style="background:#d9c8b6; color:#2d2a24;"><i class="fas fa-arrow-left"></i> Anterior</button>
         <button id="nextProject" class="btn-nav" style="background:#d9c8b6; color:#2d2a24;">Siguiente <i class="fas fa-arrow-right"></i></button>
       </div>
-      <p style="margin-top: 1.2rem; text-align: center; font-size:0.9rem;">↺ Desliza o navega por nuestros proyectos más recientes</p>
     </div>
   </section>
 
-  <!-- Cotizador dinámico e interactivo -->
   <section id="cotizador" class="section">
     <h2 class="section-title fade-up">Presupuesto en tiempo real</h2>
     <div class="quote-box fade-up">
@@ -486,20 +637,14 @@
           <option value="premium">Proyecto llave en mano (diseño, obra, muebles)</option>
         </select>
       </div>
-      <div class="price-result" id="priceDisplay">
-        Estimado: Q1,250.00
-      </div>
-      <p style="font-size:0.75rem; margin-top:1rem; text-align:center;">*Precio referencial. Te contactaremos para presupuesto exacto.</p>
+      <div class="price-result" id="priceDisplay">Estimado: $1,250 USD</div>
       <button id="contactQuoteBtn" class="btn-cta" style="background-color: #c17b4c; margin-top: 1.2rem; width:100%;">Solicitar asesoría personalizada</button>
     </div>
   </section>
 
-  <!-- Testimonios dinámicos (scroll horizontal) -->
   <section class="section testimonials">
     <h2 class="section-title fade-up">Lo que dicen nuestros clientes</h2>
-    <div class="testimonial-grid" id="testimonialGrid">
-      <!-- Cargados desde JS dinámicamente -->
-    </div>
+    <div class="testimonial-grid" id="testimonialGrid"></div>
   </section>
 </main>
 
@@ -510,12 +655,317 @@
     <a href="#"><i class="fab fa-pinterest"></i></a>
     <a href="#"><i class="fas fa-envelope"></i></a>
   </div>
-  <p style="margin-top: 1.5rem;">© 2025 Espacios que Suman — Hecho para hogares reducidos con alma grande.</p>
-  <p style="margin-top: 0.5rem; font-size:0.8rem;">📞 +502 5222 - 2222 | ✉️ hola@espaciosquesuman.com.gt</p>
+  <p style="margin-top: 1.5rem;">© 2025 EspaciosqueSuman — Hecho para hogares reducidos con alma grande.</p>
+  <p style="margin-top: 0.5rem; font-size:0.8rem;">📞 +502 5222-2222 | ✉️ cotizacion@espaciosquesuman.com.gt</p>
 </footer>
 
-<script>
-  // ----- DATA DE PROYECTOS (antes y después con imagenes placeholder reales, generadas dinámicamente)
+<a href="#" id="whatsappShareBtn" class="whatsapp-float">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<script type="module">
+  import * as THREE from 'three';
+  import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+  import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+
+  const canvas = document.getElementById('threeCanvas');
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x0a0a0a);
+  scene.fog = new THREE.FogExp2(0x0a0a0a, 0.006);
+
+  const camera = new THREE.PerspectiveCamera(42, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+  camera.position.set(4.5, 2.8, 5.5);
+  camera.lookAt(0, 1.2, 0);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.setPixelRatio(window.devicePixelRatio);
+  
+  function resizeCanvas() {
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    renderer.setSize(width, height);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  // Controles mejorados
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.06;
+  controls.autoRotate = false;
+  controls.enableZoom = true;
+  controls.zoomSpeed = 1.0;
+  controls.enablePan = true;
+  controls.panSpeed = 0.8;
+  controls.target.set(0, 1.2, 0);
+
+  // ILUMINACIÓN REALISTA
+  // Luz ambiental suave
+  const ambientLight = new THREE.AmbientLight(0x404060, 0.55);
+  scene.add(ambientLight);
+  
+  // Luz principal direccional (simula sol)
+  const mainLight = new THREE.DirectionalLight(0xfff5e0, 1.2);
+  mainLight.position.set(4, 5, 3);
+  mainLight.castShadow = true;
+  mainLight.receiveShadow = false;
+  mainLight.shadow.mapSize.width = 1024;
+  mainLight.shadow.mapSize.height = 1024;
+  mainLight.shadow.camera.near = 0.5;
+  mainLight.shadow.camera.far = 8;
+  mainLight.shadow.camera.left = -5;
+  mainLight.shadow.camera.right = 5;
+  mainLight.shadow.camera.top = 5;
+  mainLight.shadow.camera.bottom = -5;
+  scene.add(mainLight);
+  
+  // Luz de relleno cálida desde ventana
+  const fillLight = new THREE.PointLight(0xc17b4c, 0.65);
+  fillLight.position.set(2, 1.8, 2.5);
+  fillLight.castShadow = false;
+  scene.add(fillLight);
+  
+  // Luz fría de fondo para profundidad
+  const backLight = new THREE.PointLight(0x5c8d7e, 0.45);
+  backLight.position.set(-2.5, 1.5, -3);
+  scene.add(backLight);
+  
+  // Luz de acento para detalles
+  const accentLight = new THREE.PointLight(0xe8b88a, 0.5);
+  accentLight.position.set(0.5, 1.2, 1.8);
+  scene.add(accentLight);
+  
+  // Suelo con textura realista (grid sutil)
+  const gridHelper = new THREE.GridHelper(10, 24, 0x9b8a7a, 0x7a6b5c);
+  gridHelper.position.y = -0.05;
+  gridHelper.material.transparent = true;
+  gridHelper.material.opacity = 0.35;
+  scene.add(gridHelper);
+  
+  // Plano de suelo para sombras
+  const floorMat = new THREE.ShadowMaterial({ opacity: 0.5, color: 0x000000, transparent: true, side: THREE.DoubleSide });
+  const floorPlane = new THREE.Mesh(new THREE.PlaneGeometry(7.5, 7.5), floorMat);
+  floorPlane.rotation.x = -Math.PI / 2;
+  floorPlane.position.y = -0.04;
+  floorPlane.receiveShadow = true;
+  scene.add(floorPlane);
+  
+  // Base circular decorativa
+  const baseMat = new THREE.MeshStandardMaterial({ color: 0x5a4a3a, roughness: 0.7, metalness: 0.1 });
+  const baseCircle = new THREE.Mesh(new THREE.CylinderGeometry(3.2, 3.2, 0.05, 32), baseMat);
+  baseCircle.position.y = -0.07;
+  baseCircle.receiveShadow = true;
+  scene.add(baseCircle);
+
+  // ========== GRUPO ANTES (Espacio descuidado, oscuro) ==========
+  const antesGroup = new THREE.Group();
+  
+  // Paredes texturizadas viejas
+  const oldWallMat = new THREE.MeshStandardMaterial({ color: 0x8b7355, roughness: 0.85, metalness: 0.05 });
+  const backWallOld = new THREE.Mesh(new THREE.BoxGeometry(5.8, 2.6, 0.15), oldWallMat);
+  backWallOld.position.set(0, 1.3, -2.4);
+  backWallOld.castShadow = true;
+  antesGroup.add(backWallOld);
+  
+  // Piso descuidado (manchas simuladas con cubo oscuro)
+  const dirtyFloor = new THREE.Mesh(new THREE.PlaneGeometry(5, 4), new THREE.MeshStandardMaterial({ color: 0x6a5a4a, roughness: 0.9 }));
+  dirtyFloor.rotation.x = -Math.PI / 2;
+  dirtyFloor.position.y = -0.02;
+  dirtyFloor.receiveShadow = true;
+  antesGroup.add(dirtyFloor);
+  
+  // Sofá viejo y desgastado
+  const oldSofaMat = new THREE.MeshStandardMaterial({ color: 0x7a5a4a, roughness: 0.9, metalness: 0.02 });
+  const sofaBase = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.5, 0.9), oldSofaMat);
+  sofaBase.position.set(-1.3, 0.15, -0.9);
+  sofaBase.castShadow = true;
+  antesGroup.add(sofaBase);
+  
+  const sofaBack = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.6, 0.2), oldSofaMat);
+  sofaBack.position.set(-1.3, 0.55, -1.25);
+  sofaBack.castShadow = true;
+  antesGroup.add(sofaBack);
+  
+  // Mesa vieja
+  const oldTableMat = new THREE.MeshStandardMaterial({ color: 0x8b6b4a, roughness: 0.8 });
+  const tableTop = new THREE.Mesh(new THREE.CylinderGeometry(0.65, 0.65, 0.12, 12), oldTableMat);
+  tableTop.position.set(1.1, 0.26, -0.4);
+  tableTop.castShadow = true;
+  antesGroup.add(tableTop);
+  
+  const tableLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.5, 6), oldTableMat);
+  tableLeg.position.set(1.1, 0.02, -0.4);
+  tableLeg.castShadow = true;
+  antesGroup.add(tableLeg);
+  
+  // Desorden (cajas)
+  for (let i = 0; i < 5; i++) {
+    const boxMat = new THREE.MeshStandardMaterial({ color: 0x9b7a5a, roughness: 0.7 });
+    const box = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.35, 0.35), boxMat);
+    box.position.set(0.7 + i * 0.55, 0.17, 1.1);
+    box.castShadow = true;
+    antesGroup.add(box);
+  }
+  
+  // Luz pobre (tenue)
+  const poorLightObj = new THREE.PointLight(0x886644, 0.45, 4.5);
+  poorLightObj.position.set(0, 1.6, 0.2);
+  antesGroup.add(poorLightObj);
+  
+  // ========== GRUPO DESPUÉS (Moderno, realista, optimizado) ==========
+  const despuesGroup = new THREE.Group();
+  
+  // Pared renovada con acabado liso
+  const newWallMat = new THREE.MeshStandardMaterial({ color: 0xcbbaaa, roughness: 0.35, metalness: 0.05 });
+  const newBackWall = new THREE.Mesh(new THREE.BoxGeometry(5.8, 2.6, 0.15), newWallMat);
+  newBackWall.position.set(0, 1.3, -2.4);
+  newBackWall.castShadow = true;
+  despuesGroup.add(newBackWall);
+  
+  // Suelo de madera (simulado con textura de color)
+  const woodMat = new THREE.MeshStandardMaterial({ color: 0xbc9a6c, roughness: 0.45, metalness: 0.02 });
+  const woodFloor = new THREE.Mesh(new THREE.PlaneGeometry(5.2, 4.2), woodMat);
+  woodFloor.rotation.x = -Math.PI / 2;
+  woodFloor.position.y = -0.02;
+  woodFloor.receiveShadow = true;
+  despuesGroup.add(woodFloor);
+  
+  // Sofá moderno (terracota)
+  const modernSofaMat = new THREE.MeshStandardMaterial({ color: 0xc17b4c, roughness: 0.35, metalness: 0.05 });
+  const mSofaBase = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.55, 0.95), modernSofaMat);
+  mSofaBase.position.set(-1.4, 0.2, -0.85);
+  mSofaBase.castShadow = true;
+  despuesGroup.add(mSofaBase);
+  
+  const mSofaBack = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.65, 0.22), modernSofaMat);
+  mSofaBack.position.set(-1.4, 0.6, -1.22);
+  mSofaBack.castShadow = true;
+  despuesGroup.add(mSofaBack);
+  
+  // Cojines decorativos
+  const cushionMat = new THREE.MeshStandardMaterial({ color: 0xe8b88a, roughness: 0.4 });
+  const cushion = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.12, 0.45), cushionMat);
+  cushion.position.set(-1.8, 0.48, -0.7);
+  cushion.castShadow = true;
+  despuesGroup.add(cushion);
+  
+  // Mesa de centro moderna (mármol efecto)
+  const marbleMat = new THREE.MeshStandardMaterial({ color: 0xddccbb, roughness: 0.25, metalness: 0.15 });
+  const centerTableTop = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.7, 0.1, 24), marbleMat);
+  centerTableTop.position.set(0.3, 0.25, -0.25);
+  centerTableTop.castShadow = true;
+  despuesGroup.add(centerTableTop);
+  
+  const centerTableLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.12, 0.45, 8), new THREE.MeshStandardMaterial({ color: 0xaa8866, metalness: 0.6 }));
+  centerTableLeg.position.set(0.3, 0.02, -0.25);
+  centerTableLeg.castShadow = true;
+  despuesGroup.add(centerTableLeg);
+  
+  // Estantería flotante elegante
+  const shelfMat = new THREE.MeshStandardMaterial({ color: 0x8b6b4a, roughness: 0.3, metalness: 0.1 });
+  const shelf = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.08, 0.28), shelfMat);
+  shelf.position.set(1.6, 1.35, -1.1);
+  shelf.castShadow = true;
+  despuesGroup.add(shelf);
+  
+  // Libros decorativos
+  const bookMat = new THREE.MeshStandardMaterial({ color: 0x5c8d7e, roughness: 0.3 });
+  const book1 = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.28, 0.06), bookMat);
+  book1.position.set(1.55, 1.52, -0.97);
+  despuesGroup.add(book1);
+  
+  const bookMat2 = new THREE.MeshStandardMaterial({ color: 0xc17b4c });
+  const book2 = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.26, 0.06), bookMat2);
+  book2.position.set(1.75, 1.5, -0.97);
+  despuesGroup.add(book2);
+  
+  // Planta decorativa realista
+  const potMat = new THREE.MeshStandardMaterial({ color: 0x9b7a5a, roughness: 0.4 });
+  const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.18, 0.22, 12), potMat);
+  pot.position.set(1.9, 0.08, -0.15);
+  pot.castShadow = true;
+  despuesGroup.add(pot);
+  
+  const leavesMat = new THREE.MeshStandardMaterial({ color: 0x6aab5a, roughness: 0.3 });
+  for (let i = 0; i < 5; i++) {
+    const leaf = new THREE.Mesh(new THREE.ConeGeometry(0.14, 0.35, 6), leavesMat);
+    leaf.position.set(1.9 + (i * 0.08), 0.28 + (i * 0.06), -0.15 + (i * 0.04));
+    leaf.castShadow = true;
+    despuesGroup.add(leaf);
+  }
+  
+  // Lámpara colgante moderna
+  const lampMat = new THREE.MeshStandardMaterial({ color: 0xddccaa, metalness: 0.7, roughness: 0.2 });
+  const lampShade = new THREE.Mesh(new THREE.ConeGeometry(0.38, 0.28, 16), lampMat);
+  lampShade.position.set(0.4, 2.05, -1.1);
+  lampShade.castShadow = true;
+  despuesGroup.add(lampShade);
+  
+  const lampLightObj = new THREE.PointLight(0xffcc88, 0.85, 5);
+  lampLightObj.position.set(0.4, 1.85, -1.1);
+  despuesGroup.add(lampLightObj);
+  
+  // Cuadro moderno en pared
+  const frameMat = new THREE.MeshStandardMaterial({ color: 0x5c8d7e, metalness: 0.3 });
+  const picture = new THREE.Mesh(new THREE.BoxGeometry(0.95, 0.75, 0.05), frameMat);
+  picture.position.set(-1.3, 1.65, -2.28);
+  picture.castShadow = true;
+  despuesGroup.add(picture);
+  
+  // Alfombra decorativa
+  const rugMat = new THREE.MeshStandardMaterial({ color: 0xe8b88a, roughness: 0.7 });
+  const rug = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.1, 0.05, 16), rugMat);
+  rug.position.set(-0.2, -0.02, -0.4);
+  rug.receiveShadow = true;
+  despuesGroup.add(rug);
+  
+  scene.add(antesGroup);
+  scene.add(despuesGroup);
+  despuesGroup.visible = false;
+  
+  // Botones
+  const btnAntes = document.getElementById('btnAntes');
+  const btnDespues = document.getElementById('btnDespues');
+  
+  btnAntes.addEventListener('click', () => {
+    antesGroup.visible = true;
+    despuesGroup.visible = false;
+    btnAntes.classList.add('active');
+    btnDespues.classList.remove('active');
+  });
+  
+  btnDespues.addEventListener('click', () => {
+    antesGroup.visible = false;
+    despuesGroup.visible = true;
+    btnDespues.classList.add('active');
+    btnAntes.classList.remove('active');
+  });
+  
+  // Animación suave de luces
+  let time = 0;
+  function animateLights() {
+    time += 0.008;
+    const intensity = 0.65 + Math.sin(time) * 0.08;
+    fillLight.intensity = intensity;
+    accentLight.intensity = 0.5 + Math.sin(time * 1.3) * 0.1;
+    requestAnimationFrame(animateLights);
+  }
+  animateLights();
+  
+  function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  }
+  animate();
+</script>
+
+<script type="text/javascript">
+  // Datos de proyectos, testimonios y funcionalidades igual que antes
   const projects = [
     { before: "https://picsum.photos/id/124/400/300", after: "https://picsum.photos/id/169/400/300", title: "Loft 28m²" },
     { before: "https://picsum.photos/id/22/400/300", after: "https://picsum.photos/id/20/400/300", title: "Apartamento 35m²" },
@@ -528,9 +978,6 @@
   const sliderContainer = document.getElementById('sliderContainer');
 
   function renderProjects() {
-    // Mostrar 3 proyectos visibles en grid pero con navegación "slider" tipo carrusel de cards
-    // Para mejor experiencia mostramos 3 proyectos de forma dinámica pero con navegador estilo 'proyecto destacado'
-    // creamos layout de 3 cards mostrando proyecto actual, siguiente y anterior (efecto envolvente)
     const prevIndex = (currentProjectIndex - 1 + projects.length) % projects.length;
     const nextIndex = (currentProjectIndex + 1) % projects.length;
     const current = projects[currentProjectIndex];
@@ -569,10 +1016,9 @@
   });
   renderProjects();
 
-  // ----- TESTIMONIOS (array dinámico)
   const testimonials = [
-    { name: "Laura G.", text: "Mi departamento de 38m² ahora parece un loft de 60m². Increíble el equipo de EspaciosqueSuman.", rating: "⭐⭐⭐⭐⭐" },
-    { name: "Carlos M.", text: "El mobiliario modular que diseñaron cambió por completo la funcionalidad de mi estudio. 100% recomendado.", rating: "⭐⭐⭐⭐⭐" },
+    { name: "Laura G.", text: "Mi departamento de 38m² ahora parece un loft de 60m². Increíble el equipo de Espacios que Suman.", rating: "⭐⭐⭐⭐⭐" },
+    { name: "Carlos M.", text: "El mobiliario modular que diseñaron cambió por completo la funcionalidad de mi estudio.", rating: "⭐⭐⭐⭐⭐" },
     { name: "Mariana R.", text: "Nos ayudaron a redistribuir cada rincón, ahora tenemos zona de trabajo y sala sin agobios.", rating: "⭐⭐⭐⭐" },
     { name: "Javier L.", text: "Optimización total, desde el primer diseño hasta la ejecución. Muy profesionales.", rating: "⭐⭐⭐⭐⭐" },
     { name: "Sofía P.", text: "Aprovecharon el espacio muerto bajo escaleras para crear un office. Brillante.", rating: "⭐⭐⭐⭐⭐" }
@@ -591,20 +1037,17 @@
   }
   loadTestimonials();
 
-  // ----- COTIZADOR DINÁMICO (actualización en tiempo real)
   const spaceSelect = document.getElementById('spaceType');
   const metersInput = document.getElementById('squareMeters');
   const serviceSelect = document.getElementById('serviceLevel');
   const priceDisplay = document.getElementById('priceDisplay');
 
   function calculatePrice() {
-    let basePrice = 0;
+    let pricePerM2 = 0;
     const spaceType = spaceSelect.value;
     const meters = parseFloat(metersInput.value) || 30;
     const service = serviceSelect.value;
     
-    // precio base por tipo de espacio (precio por m2 estimado)
-    let pricePerM2 = 0;
     switch(spaceType) {
       case 'apartamento': pricePerM2 = 38; break;
       case 'estudio': pricePerM2 = 45; break;
@@ -612,26 +1055,17 @@
       case 'habitacion': pricePerM2 = 30; break;
       default: pricePerM2 = 38;
     }
-    basePrice = pricePerM2 * meters;
-    
-    // multiplicador según servicio
-    let multiplier = 1;
-    if(service === 'diseno') multiplier = 1;
-    else if(service === 'optimizacion') multiplier = 1.65;
-    else if(service === 'premium') multiplier = 2.4;
-    
-    let total = basePrice * multiplier;
-    total = Math.round(total);
-    // formato USD
+    let basePrice = pricePerM2 * meters;
+    let multiplier = service === 'diseno' ? 1 : service === 'optimizacion' ? 1.65 : 2.4;
+    let total = Math.round(basePrice * multiplier);
     priceDisplay.innerHTML = `💰 Estimado: Q${total.toLocaleString()} Quetzales`;
   }
   
   spaceSelect.addEventListener('change', calculatePrice);
   metersInput.addEventListener('input', calculatePrice);
   serviceSelect.addEventListener('change', calculatePrice);
-  calculatePrice(); // inicial
+  calculatePrice();
   
-  // Botón cotizador -> alerta interactiva simulando envío
   const contactQuoteBtn = document.getElementById('contactQuoteBtn');
   if(contactQuoteBtn) {
     contactQuoteBtn.addEventListener('click', () => {
@@ -642,7 +1076,6 @@
     });
   }
   
-  // Scroll a servicios desde hero
   const scrollBtn = document.getElementById('scrollToServicios');
   if(scrollBtn) {
     scrollBtn.addEventListener('click', () => {
@@ -650,7 +1083,6 @@
     });
   }
   
-  // Intersection Observer para animaciones fade-up
   const fadeElements = document.querySelectorAll('.fade-up');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -659,22 +1091,20 @@
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1, rootMargin: "0px 0px -20px 0px" });
+  }, { threshold: 0.1 });
   
   fadeElements.forEach(el => observer.observe(el));
-  // Añadir clase extra a los service cards y otros para que aparezcan
-  document.querySelectorAll('.service-card, .quote-box, .gallery-slider, .testimonials .section-title').forEach(el => {
+  document.querySelectorAll('.service-card, .quote-box, .gallery-slider, .section-3d').forEach(el => {
     if(!el.classList.contains('fade-up')) el.classList.add('fade-up');
     observer.observe(el);
   });
-  // fuerza para la galería ya cargada
+  
   setTimeout(() => {
     document.querySelectorAll('.fade-up').forEach(el => {
       if(el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('appear');
     });
   }, 200);
   
-  // añadir efecto hover a cards servicio y click para demostrar dinamismo
   const cards = document.querySelectorAll('.service-card');
   cards.forEach(card => {
     card.addEventListener('click', () => {
@@ -683,28 +1113,6 @@
     });
   });
   
-  // interacción slider de testimoniales con scroll automático suave (opcional, solo usabilidad)
-  let isDown = false;
-  let startX;
-  let scrollLeft;
-  const slider = document.querySelector('.testimonial-grid');
-  if(slider) {
-    slider.addEventListener('mousedown', (e) => {
-      isDown = true;
-      startX = e.pageX - slider.offsetLeft;
-      scrollLeft = slider.scrollLeft;
-    });
-    slider.addEventListener('mouseleave', () => { isDown = false; });
-    slider.addEventListener('mouseup', () => { isDown = false; });
-    slider.addEventListener('mousemove', (e) => {
-      if(!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - slider.offsetLeft;
-      const walk = (x - startX) * 1.5;
-      slider.scrollLeft = scrollLeft - walk;
-    });
-  }
-  // pequeño helper para links nav suave
   document.querySelectorAll('.nav-links a').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       const hash = this.getAttribute('href');
@@ -713,30 +1121,16 @@
         const targetId = hash.substring(1);
         const targetElem = document.getElementById(targetId);
         if(targetElem) targetElem.scrollIntoView({ behavior: 'smooth' });
-
       }
     });
   });
-</script>
-<!-- Botón compartir WhatsApp mejorado -->
-<div style="position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 9999;">
-  <!-- Botón compartir -->
-  <a href="#" id="shareWhatsAppBtn" style="background-color: #25D366; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.3s ease; text-decoration: none;">
-    <i class="fab fa-whatsapp" style="font-size: 28px;"></i>
-  </a>
-  <!-- Tooltip -->
-  <span style="background: #333; color: white; padding: 5px 10px; border-radius: 20px; font-size: 12px; text-align: center;">Compartir</span>
-</div>
-
-<script>
-  document.getElementById('shareWhatsAppBtn').addEventListener('click', function(e) {
+  
+  const whatsappBtn = document.getElementById('whatsappShareBtn');
+  whatsappBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    // Obtener la URL actual (funciona tanto local como publicada)
     const url = window.location.href;
-    const titulo = "Espacios que Suman - Optimización de espacios reducidos";
-    const mensaje = `¡Hola! Te invito a conocer ${titulo}. Transformamos departamentos y casas pequeñas en hogares funcionales y hermosos. 🌟\n\n`;
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(mensaje + url)}`;
-    window.open(whatsappUrl, '_blank');
+    const mensaje = `¡Hola! Te invito a conocer EspaciosqueSuman - Optimización de espacios reducidos. Mira este increíble diseño 3D y transforma tu hogar 🏠✨\n\n${url}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(mensaje)}`, '_blank');
   });
 </script>
 </body>
