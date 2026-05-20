@@ -623,7 +623,7 @@
     let total = basePrice * multiplier;
     total = Math.round(total);
     // formato USD
-    priceDisplay.innerHTML = `💰 Estimado: ${total.toLocaleString()} Quetzales`;
+    priceDisplay.innerHTML = `💰 Estimado: Q${total.toLocaleString()} Quetzales`;
   }
   
   spaceSelect.addEventListener('change', calculatePrice);
